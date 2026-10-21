@@ -1,0 +1,13 @@
+* text=auto eol=lf
+*.png binary
+/.gitignore export-ignore
+/.gitattributes export-ignore
+/AGENTS.md export-ignore
+/CLAUDE.md export-ignore
+/.ai export-ignore
+/.github export-ignore
+/tests export-ignore
+/dist export-ignore
+/compliance-internal export-ignore
+/sbom.cdx.json export-ignore
+config*.xml export-ignore

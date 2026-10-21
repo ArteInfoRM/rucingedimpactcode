@@ -1,0 +1,9 @@
+/dist/
+*.zip
+*.log
+/config*.xml
+/.env
+/.env.*
+/vendor/
+/node_modules/
+/compliance-internal/
