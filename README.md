@@ -1,6 +1,6 @@
 # Reduce the impact of third-party code
 
-`rucingedimpactcode` 1.0.8 by Tecnoacquisti.com® (Arte e Informatica di Loris Modena e C. s.a.s.).
+`rucingedimpactcode` 1.0.9 by Tecnoacquisti.com® (Arte e Informatica di Loris Modena e C. s.a.s.).
 
 The module adds connection hints for Google Fonts, Google Analytics and Google Tag Manager. It can load the full jQuery 3.7.1 or 4.0.0 build locally or from a selectable CDN and insert merchant-defined HTML and JavaScript in the storefront head. Performance depends on the theme, other modules and the resources used; connection hints do not guarantee a faster page.
 

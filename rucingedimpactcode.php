@@ -3,8 +3,9 @@
  * Copyright (c) 2009-2026 Arte e Informatica di Loris Modena e C. s.a.s.
  *
  * @author    Tecnoacquisti.com <helpdesk@tecnoacquisti.com>
+ * @copyright 2009-2026 Arte e Informatica di Loris Modena e C. s.a.s.
  * @license   https://opensource.org/license/mit MIT License
- * @version   1.0.8
+ * @version   1.0.9
  *
  * See LICENSE.md for the complete license text.
  */
@@ -20,7 +21,7 @@ class Rucingedimpactcode extends Module
     {
         $this->name = 'rucingedimpactcode';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.8';
+        $this->version = '1.0.9';
         $this->author = 'Tecnoacquisti.com';
         $this->need_instance = 0;
 
@@ -367,8 +368,8 @@ class Rucingedimpactcode extends Module
     public function getReduceImpact()
     {
         $jquerySetting = Configuration::get('RUCINGEDIMPACTCODE_JQUERY');
-        $jquerySetting = (is_string($jquerySetting) || is_int($jquerySetting))
-            && in_array((string) $jquerySetting, ['0', '1', '2', '3', '4', '5'], true) ? (int) $jquerySetting : 0;
+        $jquerySetting = in_array($jquerySetting, [0, 1, 2, 3, 4, 5, '0', '1', '2', '3', '4', '5'], true)
+            ? (int) $jquerySetting : 0;
         $jqueryVersion = $this->getJqueryVersion();
         $jqueryVersions = $this->getJqueryVersions();
         $url_js = '';

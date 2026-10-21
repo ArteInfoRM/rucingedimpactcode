@@ -1,17 +1,19 @@
 # Third-party notices
 
-This inventory covers `rucingedimpactcode` 1.0.8, updated on 2026-10-21 by Tecnoacquisti.com®.
+This inventory covers `rucingedimpactcode` 1.0.9, updated on 2026-10-21 by Tecnoacquisti.com®.
 
 ## Bundled jQuery
 
 The module includes both full minified builds. The merchant selects which version is loaded; 3.7.1 remains the default.
 
-| Version | Distributed file | Official distribution | SHA-256 |
+| Version | Distributed file | Official distribution | Distributed SHA-256 |
 | --- | --- | --- | --- |
-| 3.7.1 | `views/js/jquery.min.js` | https://code.jquery.com/jquery-3.7.1.min.js | `fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a` |
-| 4.0.0 | `views/js/jquery-4.0.0.min.js` | https://code.jquery.com/jquery-4.0.0.min.js | `39a546ea9ad97f8bfaf5d3e0e8f8556adb415e470e59007ada9759dce472adaa` |
+| 3.7.1 | `views/js/jquery.min.js` | https://code.jquery.com/jquery-3.7.1.min.js | `0a5c63ec13758f3b560e52bdce30010d7ab40beb01154f0ed34e9435204f2e4b` |
+| 4.0.0 | `views/js/jquery-4.0.0.min.js` | https://code.jquery.com/jquery-4.0.0.min.js | `a09b6025ec2f65814edded022db2d67c94c05e56e27dbb6b44a126d7467b3376` |
 
-Both files retain their upstream copyright header: OpenJS Foundation and other contributors, https://openjsf.org/. Both are MIT-licensed and unmodified: their bytes were compared with the official distributions. The complete license is included at `licenses/jquery-MIT.txt`; the upstream legal texts for 3.7.1 and 4.0.0 are identical. The module's own license does not replace those notices.
+Both files retain their upstream copyright header: OpenJS Foundation and other contributors, https://openjsf.org/. A validator-readable MIT comment with author, copyright and license tags is prepended for packaging. The original upstream banner and executable code remain byte-for-byte unchanged after this added comment. The complete license is included at `licenses/jquery-MIT.txt`; the upstream legal texts for 3.7.1 and 4.0.0 are identical. The module's own license does not replace those notices.
+
+The original upstream SHA-256 values are `fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a` for 3.7.1 and `39a546ea9ad97f8bfaf5d3e0e8f8556adb415e470e59007ada9759dce472adaa` for 4.0.0. CDN SRI continues to verify those upstream files; local loading does not use SRI. Adding the local packaging comment does not change the CDN hashes.
 
 Sources and legal texts:
 

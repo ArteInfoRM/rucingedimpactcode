@@ -8,7 +8,7 @@ Include the module, PrestaShop and PHP versions, relevant configuration without 
 
 ## Release and support status
 
-The current package is version 1.0.8. The initial source review and first versioned package covered 1.0.7 with MIT licensing and CRA documentation. The existing PrestaShop declaration remains minimum 1.7, with the running PrestaShop version as maximum; use the PHP version supported by that platform release. Compatibility tests are not established by this documentation review.
+The current package is version 1.0.9. The initial source review and first versioned package covered 1.0.7 with MIT licensing and CRA documentation. The existing PrestaShop declaration remains minimum 1.7, with the running PrestaShop version as maximum; use the PHP version supported by that platform release. Compatibility tests are not established by this documentation review.
 
 The project owner has not defined a security support end date or approved a maintained-release policy for this module. No support promise for earlier releases is made. Contact the reporting address to confirm the remediation available for an installed version. This unresolved policy must be settled before publishing a complete support commitment.
 

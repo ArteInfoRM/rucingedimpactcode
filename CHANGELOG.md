@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.9] - 2026-10-21
+
+### Fixed
+
+- Use a strict provider allowlist without the redundant integer type check flagged by static analysis.
+- Add the missing copyright tag in the required author/copyright/license order to module-owned source headers.
+- Add validator-readable MIT headers to the bundled jQuery builds while preserving the original upstream banner and executable code; document the distinct local and upstream hashes.
+
 ## [1.0.8] - 2026-10-21
 
 ### Added
