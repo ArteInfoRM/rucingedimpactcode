@@ -4,7 +4,7 @@
  *
  * @author    Tecnoacquisti.com <helpdesk@tecnoacquisti.com>
  * @license   https://opensource.org/license/mit MIT License
- * @version   1.0.7
+ * @version   1.0.8
  *
  * See LICENSE.md for the complete license text.
  */
@@ -20,7 +20,7 @@ class Rucingedimpactcode extends Module
     {
         $this->name = 'rucingedimpactcode';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.7';
+        $this->version = '1.0.8';
         $this->author = 'Tecnoacquisti.com';
         $this->need_instance = 0;
 
@@ -40,6 +40,7 @@ class Rucingedimpactcode extends Module
         Configuration::updateValue('RUCINGEDIMPACTCODE_GA', 0);
         Configuration::updateValue('RUCINGEDIMPACTCODE_GTM', 0);
         Configuration::updateValue('RUCINGEDIMPACTCODE_JQUERY', 0);
+        Configuration::updateValue('RUCINGEDIMPACTCODE_JQUERY_VERSION', '3.7.1');
         Configuration::updateValue('RUCINGEDIMPACTCODE_DIRECTIVES', '');
         Configuration::updateValue('RUCINGEDIMPACTCODE_POSITION', 0);
 
@@ -56,6 +57,7 @@ class Rucingedimpactcode extends Module
         Configuration::deleteByName('RUCINGEDIMPACTCODE_GA');
         Configuration::deleteByName('RUCINGEDIMPACTCODE_GTM');
         Configuration::deleteByName('RUCINGEDIMPACTCODE_JQUERY');
+        Configuration::deleteByName('RUCINGEDIMPACTCODE_JQUERY_VERSION');
         Configuration::deleteByName('RUCINGEDIMPACTCODE_DIRECTIVES');
         Configuration::deleteByName('RUCINGEDIMPACTCODE_POSITION');
         return parent::uninstall();
@@ -129,12 +131,12 @@ class Rucingedimpactcode extends Module
                         'values' => [
                             [
                                 'id' => 'active_on',
-                                'value' => true,
+                                'value' => 1,
                                 'label' => $this->l('Enabled')
                             ],
                             [
                                 'id' => 'active_off',
-                                'value' => false,
+                                'value' => 0,
                                 'label' => $this->l('Disabled')
                             ]
                         ],
@@ -148,12 +150,12 @@ class Rucingedimpactcode extends Module
                         'values' => [
                             [
                                 'id' => 'active_on',
-                                'value' => true,
+                                'value' => 1,
                                 'label' => $this->l('Enabled')
                             ],
                             [
                                 'id' => 'active_off',
-                                'value' => false,
+                                'value' => 0,
                                 'label' => $this->l('Disabled')
                             ]
                         ],
@@ -167,12 +169,12 @@ class Rucingedimpactcode extends Module
                         'values' => [
                             [
                                 'id' => 'active_on',
-                                'value' => true,
+                                'value' => 1,
                                 'label' => $this->l('Enabled')
                             ],
                             [
                                 'id' => 'active_off',
-                                'value' => false,
+                                'value' => 0,
                                 'label' => $this->l('Disabled')
                             ]
                         ],
@@ -185,15 +187,29 @@ class Rucingedimpactcode extends Module
                         'options' => [
                             'query' => [
                                 ['id' => '0', 'name' => $this->l("Disable")],
-                                ['id' => '1', 'name' => $this->l("Load JQuery 3.7.1 from local server")],
+                                ['id' => '1', 'name' => $this->l('Load jQuery from local server')],
                                 ['id' => '2', 'name' => $this->l("Load jQuery via Google CDN")],
-                                ['id' => '3', 'name' => $this->l("Load jQuery via Microsoft CDN")],
+                                ['id' => '3', 'name' => $this->l('Load jQuery via official jQuery CDN')],
                                 ['id' => '4', 'name' => $this->l("Load jQuery via CDNJS CDN")],
                                 ['id' => '5', 'name' => $this->l("Load jQuery via jsDelivr CDN")],
                             ],
                             'id' => 'id',
                             'name' => 'name'
                         ]
+                    ],
+                    [
+                        'type' => 'select',
+                        'label' => $this->l('jQuery version'),
+                        'name' => 'RUCINGEDIMPACTCODE_JQUERY_VERSION',
+                        'desc' => $this->l('Default: 3.7.1. Test theme and plugin compatibility before selecting 4.0.0. Google CDN mode uses the official jQuery CDN for 4.0.0.'),
+                        'options' => [
+                            'query' => [
+                                ['id' => '3.7.1', 'name' => '3.7.1'],
+                                ['id' => '4.0.0', 'name' => '4.0.0'],
+                            ],
+                            'id' => 'id',
+                            'name' => 'name',
+                        ],
                     ],
                     [
                         'type' => 'textarea',
@@ -231,44 +247,130 @@ class Rucingedimpactcode extends Module
      */
     protected function getConfigFormValues()
     {
-        return [
+        $values = [
             'RUCINGEDIMPACTCODE_GOOGLEFONT' => Tools::getValue('RUCINGEDIMPACTCODE_GOOGLEFONT', Configuration::get('RUCINGEDIMPACTCODE_GOOGLEFONT')),
             'RUCINGEDIMPACTCODE_JQUERY' => Tools::getValue('RUCINGEDIMPACTCODE_JQUERY', Configuration::get('RUCINGEDIMPACTCODE_JQUERY')),
+            'RUCINGEDIMPACTCODE_JQUERY_VERSION' => Tools::getValue('RUCINGEDIMPACTCODE_JQUERY_VERSION', $this->getJqueryVersion()),
             'RUCINGEDIMPACTCODE_DIRECTIVES' => Tools::getValue('RUCINGEDIMPACTCODE_DIRECTIVES', Configuration::get('RUCINGEDIMPACTCODE_DIRECTIVES')),
             'RUCINGEDIMPACTCODE_GA' => Tools::getValue('RUCINGEDIMPACTCODE_GA', Configuration::get('RUCINGEDIMPACTCODE_GA')),
             'RUCINGEDIMPACTCODE_GTM' => Tools::getValue('RUCINGEDIMPACTCODE_GTM', Configuration::get('RUCINGEDIMPACTCODE_GTM')),
             'RUCINGEDIMPACTCODE_POSITION' => Tools::getValue('RUCINGEDIMPACTCODE_POSITION', Configuration::get('RUCINGEDIMPACTCODE_POSITION')),
 
         ];
+
+        foreach (['RUCINGEDIMPACTCODE_GOOGLEFONT', 'RUCINGEDIMPACTCODE_GA', 'RUCINGEDIMPACTCODE_GTM'] as $key) {
+            if ($values[$key] === '') {
+                $values[$key] = 0;
+            }
+        }
+
+        return $values;
     }
 
     /**
-     * Save form data.
+     * Validate form choices before saving and report failed configuration writes.
      */
     protected function postProcess()
     {
         $form_values = $this->getConfigFormValues();
+        $form = $this->getConfigForm();
 
-        foreach (array_keys($form_values) as $key) {
-            if ($key == 'RUCINGEDIMPACTCODE_DIRECTIVES') {
-                Configuration::updateValue($key, Tools::getValue($key), true);
+        foreach ($form['form']['input'] as $input) {
+            if (!in_array($input['type'], ['switch', 'select'], true)) {
+                continue;
+            }
+
+            $isVersion = $input['name'] === 'RUCINGEDIMPACTCODE_JQUERY_VERSION';
+            $value = Tools::getValue($input['name'], $isVersion ? $form_values[$input['name']] : null);
+
+            if ($input['type'] === 'switch') {
+                // Older forms submitted an empty string for the disabled state.
+                if ($value === '' || is_bool($value)) {
+                    $value = (int) $value;
+                }
+
+                $allowedValues = array_column($input['values'], 'value');
             } else {
-                Configuration::updateValue($key, Tools::getValue($key));
+                $allowedValues = array_column($input['options']['query'], $input['options']['id']);
+            }
+
+            $isValid = (is_string($value) || is_int($value))
+                && in_array((string) $value, array_map('strval', $allowedValues), true);
+
+            if ($isValid && !$isVersion) {
+                $isValid = $input['type'] === 'switch' ? Validate::isBool($value) : Validate::isUnsignedInt($value);
+            }
+
+            if (!$isValid) {
+                return $this->displayError(sprintf($this->l('Please select a valid value for "%s".'), $input['label']));
+            }
+
+            $form_values[$input['name']] = $isVersion ? (string) $value : (int) $value;
+        }
+
+        $hasErrors = false;
+
+        foreach ($form_values as $key => $value) {
+            $saved = Configuration::updateValue(
+                $key,
+                $key === 'RUCINGEDIMPACTCODE_DIRECTIVES' ? Tools::getValue($key) : $value,
+                $key === 'RUCINGEDIMPACTCODE_DIRECTIVES'
+            );
+
+            if (!$saved) {
+                $hasErrors = true;
             }
         }
 
-        $output = $this->displayConfirmation($this->l('Settings updated'));;
-        return $output;
+        if ($hasErrors) {
+            return $this->displayError($this->l('Some settings could not be saved. Please try again.'));
+        }
+
+        return $this->displayConfirmation($this->l('Settings updated'));
     }
 
     /**
-    * Add the CSS & JavaScript files you want to be loaded in the BO.
-    */
+     * Return the supported full jQuery builds and their verified SRI hashes.
+     *
+     * @return array Version-specific local files and CDN integrity values
+     */
+    protected function getJqueryVersions()
+    {
+        return [
+            '3.7.1' => [
+                'file' => 'jquery.min.js',
+                'integrity' => 'sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs',
+            ],
+            '4.0.0' => [
+                'file' => 'jquery-4.0.0.min.js',
+                'integrity' => 'sha384-fgGyf7Mo7DURSOMnOy7ed+dkq5Job205Gnzu6QIg0BOHKaqt4D76Dt8VlDCzcMHV',
+            ],
+        ];
+    }
+
+    /**
+     * Read the selected version, defaulting existing installations to 3.7.1.
+     *
+     * @return string A supported jQuery version
+     */
+    protected function getJqueryVersion()
+    {
+        $version = Configuration::get('RUCINGEDIMPACTCODE_JQUERY_VERSION');
+        $versions = $this->getJqueryVersions();
+
+        return is_string($version) && isset($versions[$version]) ? $version : '3.7.1';
+    }
+
+    /**
+     * Render storefront connection hints and the selected jQuery resource.
+     */
     public function getReduceImpact()
     {
-
-
         $jquerySetting = Configuration::get('RUCINGEDIMPACTCODE_JQUERY');
+        $jquerySetting = (is_string($jquerySetting) || is_int($jquerySetting))
+            && in_array((string) $jquerySetting, ['0', '1', '2', '3', '4', '5'], true) ? (int) $jquerySetting : 0;
+        $jqueryVersion = $this->getJqueryVersion();
+        $jqueryVersions = $this->getJqueryVersions();
         $url_js = '';
 
         switch ($jquerySetting) {
@@ -278,19 +380,21 @@ class Rucingedimpactcode extends Module
                 if (!preg_match('#^https?://#', $local_uri)) {
                     $local_uri = Tools::getShopProtocol() . $local_uri;
                 }
-                $url_js = $local_uri . '/modules/' . $this->name . '/views/js/jquery.min.js';
+                $url_js = $local_uri . '/modules/' . $this->name . '/views/js/' . $jqueryVersions[$jqueryVersion]['file'];
                 break;
             case 2:
-                $url_js = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
+                $url_js = $jqueryVersion === '3.7.1'
+                    ? 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'
+                    : 'https://code.jquery.com/jquery-' . $jqueryVersion . '.min.js';
                 break;
             case 3:
-                $url_js = 'https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.min.js';
+                $url_js = 'https://code.jquery.com/jquery-' . $jqueryVersion . '.min.js';
                 break;
             case 4:
-                $url_js = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js';
+                $url_js = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/' . $jqueryVersion . '/jquery.min.js';
                 break;
             case 5:
-                $url_js = 'https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js';
+                $url_js = 'https://cdn.jsdelivr.net/npm/jquery@' . $jqueryVersion . '/dist/jquery.min.js';
                 break;
             default:
                 $url_js = '';
@@ -307,6 +411,7 @@ class Rucingedimpactcode extends Module
             'google_font' => $google_font,
             'jquery_local' => $jquerySetting,
             'url_js' => $url_js,
+            'jquery_integrity' => $jquerySetting > 1 ? $jqueryVersions[$jqueryVersion]['integrity'] : '',
             'custom_head' => $custom_head,
             'google_analytics' => $google_analytics,
             'google_tag' => $google_tag

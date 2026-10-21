@@ -114,8 +114,8 @@
 <main>
     <div class="generated-note">Generated from the Markdown source included with the module.</div>
 <h1>Reduce the impact of third-party code</h1>
-<p><code>rucingedimpactcode</code> 1.0.7 by Tecnoacquisti.com® (Arte e Informatica di Loris Modena e C. s.a.s.).</p>
-<p>The module adds connection hints for Google Fonts, Google Analytics and Google Tag Manager. It can load jQuery 3.7.1 locally or from a selectable CDN and insert merchant-defined HTML and JavaScript in the storefront head. Performance depends on the theme, other modules and the resources used; connection hints do not guarantee a faster page.</p>
+<p><code>rucingedimpactcode</code> 1.0.8 by Tecnoacquisti.com® (Arte e Informatica di Loris Modena e C. s.a.s.).</p>
+<p>The module adds connection hints for Google Fonts, Google Analytics and Google Tag Manager. It can load the full jQuery 3.7.1 or 4.0.0 build locally or from a selectable CDN and insert merchant-defined HTML and JavaScript in the storefront head. Performance depends on the theme, other modules and the resources used; connection hints do not guarantee a faster page.</p>
 <h2>Requirements and compatibility</h2>
 <ul>
 <li>PrestaShop 1.7 and later, including the 8.x and 9.x workspace targets. The existing entry point declares minimum <code>1.7</code> and uses the running <code>_PS_VERSION_</code> as its maximum. This declaration is preserved; it is not evidence that every release has been tested.</li>
@@ -127,10 +127,12 @@
 <p>Back up the shop database and files. Install a module ZIP containing one top-level <code>rucingedimpactcode/</code> directory using the PrestaShop Module Manager, then open the module configuration.</p>
 <ol>
 <li>Enable only the connection hints required by the shop.</li>
-<li>Select jQuery mode: <code>0</code> disabled, <code>1</code> bundled local copy, <code>2</code> Google CDN, <code>3</code> Microsoft CDN, <code>4</code> cdnjs or <code>5</code> jsDelivr. All enabled modes currently select version 3.7.1. Check whether the theme already loads jQuery before enabling another copy.</li>
+<li>Select jQuery mode: <code>0</code> disabled, <code>1</code> bundled local copy, <code>2</code> Google CDN, <code>3</code> official jQuery CDN, <code>4</code> cdnjs or <code>5</code> jsDelivr. Existing mode <code>3</code> selections now use the official jQuery CDN instead of Microsoft. Check whether the theme already loads jQuery before enabling another copy.</li>
+<li>Select jQuery version: <code>3.7.1</code> is preselected for new and existing installations without a saved version. Selecting <code>4.0.0</code> uses that version for the chosen local/CDN mode. Google mode uses the official jQuery CDN for <code>4.0.0</code>, because the corresponding Google URL is unavailable. Version 4 removes some older APIs: test the theme and its plugins before switching. The version selection does not enable jQuery when the loading mode is disabled.</li>
 <li>Select the output position: <code>0</code> displayHeader, <code>1</code> displayAfterTitleTag or <code>2</code> displayReduceImpact. Availability and placement depend on the theme. For the custom position, place <code>{hook h=&#039;displayReduceImpact&#039;}</code> in the child theme head template.</li>
 <li>Review and save any custom directives, then inspect the page source and browser network panel in staging.</li>
 </ol>
+<p>The provider and version controls are validated server-side before settings are written. Fixed CDN script tags include version-specific Subresource Integrity (SRI) and <code>crossorigin=&quot;anonymous&quot;</code>. A response that does not match the expected file is blocked by the browser. Local mode uses <code>views/js/jquery.min.js</code> for 3.7.1 and <code>views/js/jquery-4.0.0.min.js</code> for 4.0.0; it does not add SRI/CORS requirements to shop or media-server delivery. If the shop restricts script hosts with CSP, allow the selected provider, including <code>code.jquery.com</code> for the replacement of Microsoft or Google mode with 4.0.0.</p>
 <h2>Custom directives and external requests</h2>
 <p>Custom directives are executable HTML and JavaScript, not plain text. They are rendered without escaping by design in the supplied implementation. Only trusted employees should have permission to change this module configuration. Do not paste unreviewed snippets, credentials, access tokens or personal data. Restrictions on script sources, inline scripts, input size and permitted markup are not implemented in this version; the owner requested that this behavior remain unchanged during the 2026-10-21 documentation review.</p>
 <p>Connection hints and CDN scripts can contact third-party hosts from visitors&#039; browsers. Assess their use alongside the shop consent setup and Content Security Policy; this module does not implement consent gating. Local jQuery mode avoids a jQuery CDN request. Disabling the jQuery mode does not disable JavaScript supplied by the theme, other modules or custom directives.</p>
@@ -138,7 +140,7 @@
 <h2>Updating, disabling and removal</h2>
 <p>Obtain update and advisory information through the <a href="https://help.tecnoacquisti.com/">Help Center</a> or <a href="mailto:helpdesk@tecnoacquisti.com">helpdesk@tecnoacquisti.com</a>. Back up first, read the changelog and test the actual release ZIP in staging before applying it to a live shop.</p>
 <p>The historical 1.0.7 upgrade stores old directives in <code>rucingedimpactcode_tags</code> and removes the configuration value, while the supplied renderer still reads the configuration value. This review does not alter that migration. Preserve custom snippets separately before an upgrade and verify their effective output afterwards. Do not assume that the archived table is read by the storefront.</p>
-<p>Disabling the module stops its hooks. Uninstalling deletes its six configuration keys. The historical tags table is not removed by the supplied uninstall method; assess its retention separately and do not treat uninstall as complete snippet data erasure. Cache clearing and storefront checks may be needed after a configuration change.</p>
+<p>Disabling the module stops its hooks. Uninstalling deletes its seven configuration keys, including the jQuery version preference. The historical tags table is not removed by the supplied uninstall method; assess its retention separately and do not treat uninstall as complete snippet data erasure. Cache clearing and storefront checks may be needed after a configuration change.</p>
 <h2>Documentation, license and security</h2>
 <ul>
 <li><code>CHANGELOG.md</code>: change history</li>

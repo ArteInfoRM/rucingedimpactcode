@@ -114,6 +114,28 @@
 <main>
     <div class="generated-note">Generated from the Markdown source included with the module.</div>
 <h1>Changelog</h1>
+<h2>[1.0.8] - 2026-10-21</h2>
+<h3>Added</h3>
+<ul>
+<li>Add a jQuery version selector with 3.7.1 as the default and 4.0.0 as an explicit choice, applied to local and CDN loading.</li>
+<li>Include the unmodified full local jQuery 4.0.0 build; verify the existing local 3.7.1 file against the official distribution.</li>
+<li>Add version-specific SHA-384 Subresource Integrity and anonymous CORS to predefined CDN script tags for both versions.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Replace Microsoft CDN mode with the official jQuery CDN while preserving the saved provider ID.</li>
+<li>Use the official jQuery CDN when Google mode is selected with 4.0.0, preserving the requested version.</li>
+<li>Track the jQuery version preference in installation, uninstallation and server-side form validation; existing installations default to 3.7.1 without a database migration.</li>
+<li>Update third-party inventory and usage documentation for both jQuery builds.</li>
+<li>Include the updated module logo supplied by the project owner.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Resolve the back-office credits logo from the module base URI so it loads on nested PrestaShop 9 configuration routes.</li>
+<li>Show the configuration save confirmation only when all setting writes succeed; report an error if any write fails while preserving custom HTML and JavaScript handling.</li>
+<li>Validate switches and select options with native PrestaShop validators and the form&#039;s allowed choices before writing any settings; preserve valid zero values and compatibility with disabled switches from older forms.</li>
+<li>Use native numeric switch values and display historical empty disabled values as zero.</li>
+</ul>
 <h2>[1.0.7] - 2026-10-21</h2>
 <h3>License</h3>
 <ul>

@@ -1,22 +1,24 @@
 # Third-party notices
 
-This inventory covers `rucingedimpactcode` 1.0.7 as reviewed on 2026-10-21 by Tecnoacquisti.com®.
+This inventory covers `rucingedimpactcode` 1.0.8, updated on 2026-10-21 by Tecnoacquisti.com®.
 
 ## Bundled jQuery
 
-| Field | Inventory |
-| --- | --- |
-| Component | jQuery 3.7.1 |
-| Origin | https://github.com/jquery/jquery/tree/3.7.1 |
-| Distributed file | `views/js/jquery.min.js` |
-| Distribution | Included; loaded only when local jQuery mode is selected |
-| License | MIT |
-| Copyright | OpenJS Foundation and other contributors, https://openjsf.org/ |
-| Complete legal text | `licenses/jquery-MIT.txt` |
-| Local modifications | None detected: SHA-256 equals the official minified distribution |
-| SHA-256 | `fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a` |
+The module includes both full minified builds. The merchant selects which version is loaded; 3.7.1 remains the default.
 
-The upstream comparison used https://code.jquery.com/jquery-3.7.1.min.js. The license was retrieved from https://raw.githubusercontent.com/jquery/jquery/3.7.1/LICENSE.txt. Its header and copyright have been preserved; the module license does not replace them.
+| Version | Distributed file | Official distribution | SHA-256 |
+| --- | --- | --- | --- |
+| 3.7.1 | `views/js/jquery.min.js` | https://code.jquery.com/jquery-3.7.1.min.js | `fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a` |
+| 4.0.0 | `views/js/jquery-4.0.0.min.js` | https://code.jquery.com/jquery-4.0.0.min.js | `39a546ea9ad97f8bfaf5d3e0e8f8556adb415e470e59007ada9759dce472adaa` |
+
+Both files retain their upstream copyright header: OpenJS Foundation and other contributors, https://openjsf.org/. Both are MIT-licensed and unmodified: their bytes were compared with the official distributions. The complete license is included at `licenses/jquery-MIT.txt`; the upstream legal texts for 3.7.1 and 4.0.0 are identical. The module's own license does not replace those notices.
+
+Sources and legal texts:
+
+- https://github.com/jquery/jquery/tree/3.7.1
+- https://github.com/jquery/jquery/tree/4.0.0
+- https://raw.githubusercontent.com/jquery/jquery/3.7.1/LICENSE.txt
+- https://raw.githubusercontent.com/jquery/jquery/4.0.0/LICENSE.txt
 
 ## PrestaShop-derived directory guards
 
@@ -32,16 +34,19 @@ PrestaShop supplies the Module, Configuration, HelperForm, ObjectModel and datab
 
 ## Optional external jQuery delivery
 
-All configured CDN modes load jQuery 3.7.1. The CDN services are external delivery providers, not additional libraries included in the module archive:
+CDNs are external delivery providers, not additional libraries bundled in the module. Requests use exact versioned URLs. Let `VERSION` be the selected `3.7.1` or `4.0.0`:
 
 | Mode | Provider | Script endpoint |
 | --- | --- | --- |
-| 2 | Google Hosted Libraries | https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js |
-| 3 | Microsoft Ajax CDN | https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.min.js |
-| 4 | cdnjs | https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js |
-| 5 | jsDelivr | https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js |
+| 2 | Google Hosted Libraries for 3.7.1 | https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js |
+| 2, version 4.0.0 | Official jQuery CDN fallback | https://code.jquery.com/jquery-4.0.0.min.js |
+| 3 | Official jQuery CDN | `https://code.jquery.com/jquery-VERSION.min.js` |
+| 4 | cdnjs | `https://cdnjs.cloudflare.com/ajax/libs/jquery/VERSION/jquery.min.js` |
+| 5 | jsDelivr | `https://cdn.jsdelivr.net/npm/jquery@VERSION/dist/jquery.min.js` |
 
-jQuery remains MIT-licensed in these modes. The local-copy hash verification does not verify the contents returned by every CDN. The existing template does not set Subresource Integrity attributes.
+Mode 3 replaces the former Microsoft Ajax CDN choice. Existing saved provider IDs are preserved; the destination changes to the official jQuery CDN. No Microsoft script URL is used by the module's predefined loading modes.
+
+All predefined CDN tags include version-specific SHA-384 SRI and `crossorigin="anonymous"`. For each available endpoint, HTTPS status, CORS headers and exact response bytes were checked against the official version. These checks do not guarantee future availability. A file that changes unexpectedly will fail browser integrity verification. Merchant-defined directives are outside this fixed resource contract and remain unfiltered.
 
 ## Optional connection hints and merchant snippets
 

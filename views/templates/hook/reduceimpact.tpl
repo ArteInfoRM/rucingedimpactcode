@@ -25,6 +25,6 @@
     {$custom_head nofilter}
 {/if}
 {if  $jquery_local > 0 && $url_js != ''}
-    <script src="{$url_js|escape:'htmlall':'UTF-8'}" type="text/javascript"></script>
+    <script src="{$url_js|escape:'htmlall':'UTF-8'}" type="text/javascript"{if $jquery_integrity != ''} integrity="{$jquery_integrity|escape:'htmlall':'UTF-8'}" crossorigin="anonymous"{/if}></script>
 {/if}
     <!-- End Reduce the impact of third-party code -->

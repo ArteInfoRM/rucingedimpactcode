@@ -11,7 +11,7 @@
 <div class="panel">
     <h3><i class="icon-code"></i> {l s='Credits' mod='rucingedimpactcode'}</h3>
     <a href="https://www.tecnoacquisti.com" title="PrestaShop Modules" target="_blank">
-        <img src="../modules/rucingedimpactcode/views/img//logo-tecnoacquisti.svg" style="float:right; max-width: 350px;" alt="{l s='PrestaShop Modules' mod='rucingedimpactcode'}">
+        <img src="{$module_dir|escape:'html':'UTF-8'}views/img/logo-tecnoacquisti.svg" style="float:right; max-width: 350px;" alt="{l s='PrestaShop Modules' mod='rucingedimpactcode'}">
     </a>
     <p>
     <h4><strong>{l s='We provide customized solutions to help you develop your online business' mod='rucingedimpactcode'}</strong></h4>

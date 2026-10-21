@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.0.8] - 2026-10-21
+
+### Added
+
+- Add a jQuery version selector with 3.7.1 as the default and 4.0.0 as an explicit choice, applied to local and CDN loading.
+- Include the unmodified full local jQuery 4.0.0 build; verify the existing local 3.7.1 file against the official distribution.
+- Add version-specific SHA-384 Subresource Integrity and anonymous CORS to predefined CDN script tags for both versions.
+
+### Changed
+
+- Replace Microsoft CDN mode with the official jQuery CDN while preserving the saved provider ID.
+- Use the official jQuery CDN when Google mode is selected with 4.0.0, preserving the requested version.
+- Track the jQuery version preference in installation, uninstallation and server-side form validation; existing installations default to 3.7.1 without a database migration.
+- Update third-party inventory and usage documentation for both jQuery builds.
+- Include the updated module logo supplied by the project owner.
+
+### Fixed
+
+- Resolve the back-office credits logo from the module base URI so it loads on nested PrestaShop 9 configuration routes.
+- Show the configuration save confirmation only when all setting writes succeed; report an error if any write fails while preserving custom HTML and JavaScript handling.
+- Validate switches and select options with native PrestaShop validators and the form's allowed choices before writing any settings; preserve valid zero values and compatibility with disabled switches from older forms.
+- Use native numeric switch values and display historical empty disabled values as zero.
+
 ## [1.0.7] - 2026-10-21
 
 ### License
